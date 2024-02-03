@@ -1,0 +1,399 @@
+/* Makes page fill the window. */
+html,
+body {
+  background-image: url('../assets/world_map.jpg');
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+p {
+  font-family: 'Krona One', sans-serif;
+}
+
+/* Policy sidebar */
+#policy-sidebar {
+  background: gray;
+  height: 100%;
+  width: 20%;
+  overflow: scroll;
+}
+
+.policyButton {
+  margin: 0.25em 0em 0.25em 0em; /* top right bottom left */
+}
+.policy {
+  background: rgb(90, 161, 226);
+  /* border-style: solid;
+  border-width: 0.25em; */
+}
+.research {
+  background: rgb(90, 161, 226);
+}
+.law {
+  background: rgb(228, 223, 91);
+}
+.initiative {
+  background: rgb(228, 91, 91);
+}
+
+#resources {
+  width: 100%;
+  background: gray;
+  display: flex;
+  justify-content: space-around;
+}
+
+#date {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-family: 'Krona One', sans-serif;
+  font-size: 1em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 40px;
+  background: rgb(28, 100, 152);
+}
+
+
+/* title styling*/
+#title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Krona One', sans-serif;
+  font-size: 2em;
+  letter-spacing: 5px;
+  background: rgb(28, 100, 152);
+  height: 60px;
+}
+
+/* title styling*/
+#policiestitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Krona One', sans-serif;
+  font-size: 1.5em;
+  background: rgb(67, 149, 208);
+  height: 50px;
+}
+
+
+/* side navbar styling*/
+    .sidebar {
+      height: auto;
+      width: 50px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color:rgba(226, 241, 255, 0.767);
+    }
+    #box {
+      background-color:rgba(174, 216, 255, 0.767);
+    }
+    /* styles the icons*/
+    .sidebar a{
+      padding: 5px 5px 5px 5px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /*icon color during mouse hover*/
+    .sidebar a:hover{
+      background-color:rgba(174, 216, 255, 0.767);
+    }
+
+/* tool window styling*/
+    .tool {
+      height: auto;
+      width: 300px;
+      margin-right: 50px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0px;
+      background-color: white;
+      overflow-x: hidden;
+    }
+    .tool .closebtn {
+      position: absolute;
+      top: 0;
+      right: 30px;
+      font-size: 30px;
+      text-decoration: none;
+      color:rgb(90, 161, 226);
+      margin-right: -25px;
+    }
+    .label {
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px;
+      padding: 2px 15px 2px 15px;
+      background-color:rgb(90, 161, 226);
+      letter-spacing: 1px;
+    }
+    .tool h1 {
+      display: flex;
+      justify-content: center;
+      font-family: "Prompt", sans-serif;
+      font-weight: 700;
+      font-size: 30px;
+      margin: 8px;
+      margin-bottom: 0px;
+      letter-spacing: 7px;
+    }
+    .tool p {
+      margin-left: 20px;
+      font-size: 13px;
+    }
+
+/* toggle switch styling */
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+      margin-left: 5px;
+    }
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    /* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 3px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: rgb(90, 161, 226);
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px rgb(90, 161, 226);
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(16px);
+      -ms-transform: translateX(16px);
+      transform: translateX(16px);
+    }
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 20px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+/* select menu styling */
+    .selection {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0px;
+    }
+    #addbutton {
+      margin-left: 10px;
+      font-size: 13px;
+      white-space: nowrap;
+      background-color: rgb(158, 219, 247);
+      border: none;
+      padding: 2px 8px;
+      border-radius: 3px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+    #addbutton:hover {
+      background-color: rgb(96, 190, 233);
+      cursor: pointer;
+    }
+    #addbutton.disabled {
+      background-color: rgb(158, 219, 247);
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #start.disabled {
+      background-color: rgb(158, 219, 247);
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+/* budget bar styling */
+    #budSection {
+      padding: 20px;
+      padding-bottom: 2px;
+    }
+    #budgetBar {
+      width: 250px;
+      background-color: rgb(216, 216, 216);
+    }
+    #bbar {
+      width: 100%;
+      height: 20px;
+      background-color: rgb(50, 163, 50);
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    
+    #timer {
+      width: 250px;
+      margin: 20px;
+      height: 20px;
+      background-color: rgb(216, 216, 216);
+    }
+    
+    #tbar {
+      height: 100%;
+      width: 100%;
+      font-size: 13px;
+      text-align: left;
+      color: white;
+      display: flex;
+      align-items: center;
+      background-color: rgb(50, 163, 50);
+      box-sizing: border-box;
+    }
+
+    .bigbtn {
+      margin: 30px; 
+      font-size: 5em;
+      font-family: 'Krona One', sans-serif;
+      white-space: nowrap;
+      background-color: rgb(158, 219, 247);
+      border: none;
+      padding: 10px 30px;
+      border-radius: 5px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      box-shadow: 5px 5px #999;
+    }
+    .bigbtn:hover {
+      background-color: rgb(96, 190, 233);
+      cursor: pointer;
+    }
+    .bigbtn:active {
+      background-color: rgb(96, 190, 233);
+      box-shadow: 2px 2px #666;
+      transform: translate(2px, 2px);
+    }
+    #start {
+      font-size: 18px;
+    }
+    #play {
+      font-size: 25px;
+    }
+
+/* help window styling */
+    /* The Modal (background) */
+    #helpwindow { display: block; }
+    
+    .modal {
+      display: none; /* closed by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .modalwindow {
+      margin: 5% auto; /* 15% from the top and centered */
+      padding: 20px;
+      height: auto;
+      width: 80%;
+      z-index: 1;
+      background-color: white;
+      overflow-x: hidden;
+    }
+
+    .modalwindow h1 {
+      display: flex;
+      justify-content: center;
+      font-family: "Krona One", sans-serif;
+      font-weight: 700;
+      font-size: 4em;
+      margin: 10px;
+      letter-spacing: 3px;
+    }
+
+    .modalwindow p {
+      margin-left: 20px;
+      font-size: 2em;
+    }
+
+    .exclamation {
+      box-shadow: 0 0 0 0 rgba(226, 87, 76, 1);
+      border-radius: 50%;
+	    transform: scale(1);
+	    animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(226, 87, 76, 0.7);
+      }
+    
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+      }
+    
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+      }
+    }
+
+
+/*delete menu styling*/
+    .delete-menu {
+      position: absolute;
+      background: white;
+      padding: 3px;
+      color: #666;
+      font-weight: bold;
+      border: 1px solid #999;
+      font-family: sans-serif;
+      font-size: 12px;
+      box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.3);
+      margin-top: -10px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .delete-menu:hover {
+      background: #eee;
+    }
+
+
+
+
+    
