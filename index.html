@@ -29,7 +29,17 @@
     <p id="resources-emission"></p>
     <p id="resources-research"></p>
   </div>
-  <div><p id="date"></p></div>
+
+  <div id = "fast">
+    <button id="fast-button", onclick="fastForward()"><img id = "fast-img" src="assets/singleArrow.png"></img></button>
+  </div>
+
+  <div style="display: table; width: 20%;">
+    <div style="display: table-row;">
+        <div id="date-wrapper" style="display: table-cell;"><p id="date"></p></div>
+        <div id="temp-wrapper" style="display: table-cell;"><p id="temp">+1C</p></div>
+    </div>
+  </div>
 
   <div id = "policy-sidebar">
     <div id="policiestitle">
@@ -39,86 +49,20 @@
 
   <script>updateResources()</script>
 
-  
-
-
   <div id="tools">
-    <!-- <div class="sidebar">
-      <a href="#" onclick="openTools()" id="box"><img border="0" alt="toolbox" src="toolbox.png" width="30"
-          height="30"></a>
-      <a href="#" onclick="openHelp()"><img border="0" alt="question" src="questionmark.png" height="40"></a>
-    </div>
-        <div id="toolwindow" class="tool">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeTools()">&times;</a>
-      <h1>TOOL BOX</h1>
-      <div style="display: flex; align-items: center; margin-bottom: 5px;">
-        <p>Toggle Elevation Overlay: </p>
-        <label class="switch">
-          <input type="checkbox" id="toggleoverlay">
-          <span class="slider round"></span>
-        </label> <br>
-      </div>
-      <span class="label">ADD RESERVOIR</span><br>
-      <div class="selection" style="width: 100px; height: 30px; margin-top: 10px;">
-        <p style="margin-right: 5px; white-space: nowrap;">Reservoir Size:</p>
-        <select id="selectmenu">
-          <option value="0">Select:</option>
-          <option value="1">Small</option>
-          <option value="2">Medium</option>
-          <option value="3">Large</option>
-        </select>
-        <button type="button" id="addbutton">Add</button>
-      </div>
-      <p style="line-height: 10px; margin-top: 6px;">Number of Reservoirs: <span id="num"></span></p>
-      <p>Total Reservoir Area: <span id="area"></span></p>
-      <span class="label">BUDGET</span><br>
-      <div id="budSection">
-        <div id="budgetBar">
-          <div id="bbar">
-            <p id="budpercent" style="margin-left: 5px;">100%</p>
-          </div>
-        </div>
-      </div>
-      <p style="line-height: 1%;">Spent: <span id="spent"></span></p>
-      <p style="margin-bottom: 20px;">Remaining: <span id="remaining"></span></p>
-      <span class="label">TIME UNTIL FLOOD</span><br>
-      <div id="timer">
-        <div id="tbar">
-          <span id="floodtime" style="margin-left: 5px;"></span>
-        </div>
-      </div>
-      <div style="display: flex; align-items: center; justify-content: center;">
-        <button type="button" id="start" class="bigbtn">START SIMULATION EARLY</button>
-      </div>
-    </div> -->
-    
     <div id="helpwindow" class="modal">
       <div class="modalwindow">
-        <h1>WELCOME TO NET ZERO!</h1>
-        <p style="font-size: 1.5em; text-wrap: wrap; margin-bottom: 40px;">The Earth is in peril, facing the imminent threat of climate change. As a visionary government, you have been chosen to guide the world towards a sustainable future. Can you rally public support, manage resources wisely, and implement groundbreaking policies to save the planet?</p>
-        <p style="font-size: 1.5em; text-wrap: wrap; margin-bottom: 20px;">Objective: Achieve net-zero carbon emissions and keep global warming below the critical threshold to secure a thriving future for humanity.</p>
+        <h1 id="helpheader">WELCOME TO NET ZERO!</h1>
+        <p id="help1" style="font-size: 1.5em; text-wrap: wrap; margin-bottom: 40px;">The Earth is in peril, facing the imminent threat of climate change. As a visionary government, you have been chosen to guide the world towards a sustainable future. Can you rally public support, manage resources wisely, and implement groundbreaking policies to save the planet?</p>
+        <p id="help2" style="font-size: 1.5em; text-wrap: wrap; margin-bottom: 20px;">Objective: Achieve net-zero carbon emissions and keep global warming below the critical threshold to secure a thriving future for humanity.</p>
         <div style="display: flex; align-items: center; justify-content: center;">
-          <p>Are you ready to become the savior the world needs?</p>
+          <p id="help3">Are you ready to become the savior the world needs?</p>
         </div>
         <div style="display: flex; align-items: center; justify-content: center;">
-          <button type="button" id="play" class="bigbtn" onclick="closeHelp(); refreshPolicies()">START</button>
+          <button type="button" id="play" class="bigbtn" onclick="closeHelp(); fixPolicies(); refreshPolicies()">START</button>
         </div>
       </div>
     </div>
-
-  </div>
-
-  <div id="endscreen" class="modal">
-    <div class="modalwindow">
-        <h1 id="endheader"></h1>
-        <p style="font-size: 1.5em; text-wrap: wrap; margin-bottom: 20px;">Objective: Achieve net-zero carbon emissions and keep global warming below the critical threshold to secure a thriving future for humanity.</p>
-        <div style="display: flex; align-items: center; justify-content: center;">
-          <p id="endpara"></p>
-        </div>
-        <div style="display: none; align-items: center; justify-content: center;">
-          <button type="button" id="play" class="bigbtn" onclick="">Play Again</button>
-        </div>
-      </div>
   </div>
 
 </body>

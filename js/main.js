@@ -4,13 +4,17 @@ let carbon; // measured in ppm
 let emissionRate; // ppm per year?
 let research;
 let researchRate; // per month
+let temp;
 
 let month;
 let year;
 
+let timeInterval;
 let game_speed;
+let fast = false;
 
 let paused = false; // is the clock paused?
+let displayOn = false;
 
 const STARTING_FUNDING = 100;
 const STARTING_SUPPORT = 50;
@@ -19,6 +23,8 @@ const STARTING_EMMISION_RATE = 4.7;
 const STARTING_RESEARCH = 0;
 const STARTING_RESEARCH_RATE = 1;
 
+const FUNDING_RATE = 50;
+
 const STARTING_MONTH = 1;
 const STARTING_YEAR = 2024;
 
@@ -26,7 +32,7 @@ const ZERO_TEMP_CARBON = 320; // Carbon when temp diff = 0.
 const STARTING_TEMPERTURE = 1; // Temp difference from 20th century average at start of game.
 const TEMP_GAME_LOSS = 5; // Temp difference at which game loss happens.
 
-const BASE_GAME_SPEED = 5; // seconds per month
+const BASE_GAME_SPEED = 2; // seconds per month
 
 
 // Get current global temperature. Measured in diff from 20th century average.
@@ -35,39 +41,79 @@ function getTemperature() {
   return (carbon - ZERO_TEMP_CARBON) * conversion
 }
 
+function newGame() {
+  resetPolicies();
+  setStartingResources();
+  refreshPolicies();
+  closeHelp();
+  updateResources();
+  displayOn = false;
+  fast = false;
+  let img = document.getElementById("fast-img");
+  img.src = "assets/singleArrow.png";
+}
+
 function displayWin() {
-  let endscreen = document.getElementById("endscreen");
+  let window = document.getElementById("helpwindow");
 
-  let endheader = document.getElementById("endheader");
+  let header = document.getElementById("helpheader");
   let dateStr = `${month}/1/${year}`
-  endheader.innerHTML = "CONGRATULATIONS! Net Zero Emissions were reached on " + dateStr + ".";
+  header.innerText = "CONGRATULATIONS! Net Zero Emissions were reached on " + dateStr + ".";
 
-  let endpara = document.getElementById("endpara");
-  endpara.innerHTML = "Can you make it happen faster?";
+  let p1 = document.getElementById("help1");
+  p1.innerHTML = "";
 
-  endscreen.style.display = "flex";
+  let p2 = document.getElementById("help2");
+  p2.innerHTML = "";
+
+  let p3 = document.getElementById("help3");
+  p3.innerHTML = "Can you save the world even faster?";
+
+  let button = document.getElementById("play");
+  button.innerHTML = "Play Again"
+  button.onclick = newGame;
+
+  openHelp();
 }
 
 function displayLoss() {
-  let endscreen = document.getElementById("endscreen");
+  let window = document.getElementById("helpwindow");
 
-  let endheader = document.getElementById("endheader");
+  let header = document.getElementById("helpheader");
   let dateStr = `${month}/1/${year}`
-  endheader.innerHTML = "Unfortunately, carbon levels of " + carbon + "ppm caused global temperatures to rise 5 degrees above pre-industrial levels." + dateStr + ".";
+  header.innerHTML = "Unfortunately, global temperatures rose to 5\xB0C above pre-industrial levels.";
 
-  let endpara = document.getElementById("endpara");
-  endpara.innerHTML = "Can you make it happen faster?";
+  let p1 = document.getElementById("help1");
+  p1.innerHTML = "";
 
-  endscreen.style.display = "flex";
+  let p2 = document.getElementById("help2");
+  p2.innerHTML = "";
+
+  let p3 = document.getElementById("help3");
+  p3.innerHTML = "Can you reduce emission levels even faster?";
+
+  let button = document.getElementById("play");
+  button.innerHTML = "Play Again";
+  button.onclick = newGame;
+
+  openHelp();
 }
 
 function checkWin() {
-  let temp = getTemperature();
-  if (temp >= TEMP_GAME_LOSS) {
-    displayLoss();
-  }
-  else if (emissionRate <= 0) {
-    displayWin();
+  if (!displayOn) {
+    let temp = getTemperature();
+    if (temp >= TEMP_GAME_LOSS) {
+      console.log("LOSS");
+      clearInterval(timeInterval);
+      displayLoss();
+      displayOn = true;
+    }
+    else if (emissionRate <= 0) {
+      console.log("WIN");
+      clearInterval(timeInterval);
+      displayWin();
+      displayOn = true;
+    }
   }
 }
 
@@ -81,6 +127,7 @@ function setStartingResources() {
 
   month = STARTING_MONTH;
   year = STARTING_YEAR;
+  temp = STARTING_TEMPERTURE;
 
   game_speed = BASE_GAME_SPEED;
 }
@@ -93,6 +140,7 @@ function updateResources() {
   let researchStr = `Research: ${Math.round(research)}`;
 
   let dateStr = `${month}/1/${year}`;
+  let tempStr = `+${Math.round(temp*10)/10} °C`
 
   document.getElementById("resources-funding").innerHTML = fundingStr;
   document.getElementById("resources-support").innerHTML = supportStr;
@@ -101,8 +149,7 @@ function updateResources() {
   document.getElementById("resources-research").innerHTML = researchStr;
 
   document.getElementById("date").innerHTML = dateStr;
-
-  checkWin();
+  document.getElementById("temp").innerHTML = tempStr;
 }
 
 function increaseTime() {
@@ -114,7 +161,31 @@ function increaseTime() {
   }
   carbon += emissionRate / 12;
   research += researchRate;
+  funding += FUNDING_RATE * support / 100 / 12;
+  temp = getTemperature();
   updateResources();
+  checkWin();
+}
+
+function fastForward() {
+  let img = document.getElementById("fast-img");
+
+  if (fast) {
+    game_speed = BASE_GAME_SPEED;
+    clearInterval(timeInterval);
+    timeInterval = setInterval(increaseTime, game_speed * 1000);
+
+    fast = false;
+    img.src = "assets/singleArrow.png";
+  }
+  else {
+    game_speed = BASE_GAME_SPEED / 10;
+    clearInterval(timeInterval);
+    timeInterval = setInterval(increaseTime, game_speed * 1000);
+
+    fast = true;
+    img.src = "assets/doubleArrow.png";
+  }
 }
 
 /* IN CASE WE NEED TO PAUSE TIMER! e.g. opened help window...
@@ -134,19 +205,9 @@ function resumeClock() {
 }
 */
 
-console.log("Hello, Main")
-
 var policies = JSON.parse(data);
-console.log(policies);
 
 setStartingResources();
-setInterval(increaseTime, game_speed * 1000);
-
-
-
-
-
-// TODO FIND WHAT WE CAN REMOVE FROM BELOW 
 
 /** help box navigation */
 function openHelp() {
@@ -155,51 +216,6 @@ function openHelp() {
 }
 function closeHelp() {
   document.getElementById("helpwindow").style.display = "none";
-  // if (document.getElementById("play").innerHTML == "START") {
-  //   current_time = Date.parse(new Date());
-  //   deadline = new Date(current_time + time_in_minutes * 60 * 1000);
-  //   run_clock('floodtime', deadline);
-  //   document.getElementById("play").innerHTML = "LET'S PLAY";
-  // }
-  /*
-  else
-    resume_clock();*/
+  clearInterval(timeInterval);
+  timeInterval = setInterval(increaseTime, game_speed * 1000);
 }
-
-/*
-//changes color and length of budget bar depending on how much has been spent
-function budgetBar(amt) {
-  var elem = document.getElementById("bbar");
-  var percent = amt / 100000;
-  elem.style.width = percent + "%";
-  if (percent <= 0) {
-    elem.style.width = "0.1%";
-    elem.style.backgroundColor = "red";
-  } else if (percent <= 20) {
-    elem.style.backgroundColor = "red";
-  } else if (percent <= 50) {
-    elem.style.backgroundColor = "orange";
-  } else {
-    elem.style.backgroundColor = "rgb(50, 163, 50)";
-  }
-  document.getElementById("budpercent").innerHTML = Math.round(percent) + "%";
-}
-
-//changes color and length of budget bar depending on how much has been spent
-function timerbar() {
-  var elem = document.getElementById("tbar");
-  var timeleft = time_remaining(deadline).minutes * 60 + time_remaining(deadline).seconds;
-  var percent = (timeleft / (time_in_minutes * 60)) * 100;
-  elem.style.width = percent + "%";
-  if (percent <= 0) {
-    elem.style.width = "0.5%";
-    elem.style.backgroundColor = "rgba(187, 42, 42, 0.5)";
-  } else if (percent <= 20) {
-    elem.style.backgroundColor = "red";
-  } else if (percent <= 50) {
-    elem.style.backgroundColor = "orange";
-  } else {
-    elem.style.backgroundColor = "rgb(50, 163, 50)";
-  }
-}
-*/
