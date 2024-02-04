@@ -5,8 +5,8 @@ Submission for ADI DevFest 2024.
 02/03/2024
 
 ## Authors
-David Chang
-Diego Fernandez
+David Chang,
+Diego Fernandez,
 Luana Liao
 
 ## Description
