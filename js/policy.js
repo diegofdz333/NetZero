@@ -96,19 +96,19 @@ function addPolicy(policy) {
     let infoText = policy['description'] + '\n';
 
     if (policy['funding-diff'] != undefined && policy['funding-diff'] != 0) {
-        infoText = infoText + '\nFunding: ' + policy['funding-diff'];
+        infoText = infoText + '\nFunding: ' + policy['funding-diff'] + 'M';
     }
     if (policy['research-diff'] != undefined && policy['research-diff'] != 0) {
         infoText = infoText + '\nResearch: ' + policy['research-diff'];
     }
     if (policy['support-diff'] != undefined && policy['support-diff'] != 0) {
-        infoText = infoText + '\nSupport: ' + policy['support-diff'];
+        infoText = infoText + '\nSupport: ' + policy['support-diff'] + '%';
     }
     if (policy['carbon-diff'] != undefined && policy['carbon-diff'] != 0) {
-        infoText = infoText + '\nCarbon: ' + policy['carbon-diff'];
+        infoText = infoText + '\nCarbon: ' + policy['carbon-diff'] + ' ppm';
     }
     if (policy['emission-diff'] != undefined && policy['emission-diff'] != 0) {
-        infoText = infoText + '\nEmissions: ' + policy['emission-diff'];
+        infoText = infoText + '\nEmissions: ' + policy['emission-diff'] + ' ppm/year';
     }
 
     info.innerText = infoText;

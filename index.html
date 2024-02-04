@@ -21,30 +21,62 @@
   <div id="title">
     <h3>NET ZERO</h3>
   </div>
+
+  <div id = "overlay"> </div>
   
-  <div id="resources">
-    <p id="resources-funding"></p>
-    <p id="resources-support"></p>
-    <p id="resources-carbon"></p>
-    <p id="resources-emission"></p>
-    <p id="resources-research"></p>
-  </div>
+  <div style="z-index: 1; position: relative;">
+    <div style="width: 100%; color: white; display: flex; justify-content: space-around;">
+        <div style="width: 100%; background: rgb(77, 154, 75); display: flex; justify-content: space-around;">
+        <p id="resources-funding" style="padding: 0px 50px"></p>
+        <p id="resources-support" style="padding: 0px 50px"></p>
+        <p id="resources-research" style="padding: 0px 50px"></p>
+        </div>
+
+        <div style="width: 80%; background: rgb(215, 27, 27); display: flex; justify-content: space-around;">
+        <p id="resources-carbon"></p>
+        <p id="resources-emission" style="color: yellow"></p>
+        </div>
+    </div>
+
+    <div style="width: 100%; display: flex; justify-content: space-around;">
+        <div style="width: 100%; background: rgb(200, 230, 252); display: flex; justify-content: space-around;">
+        <p id ="date"></p>
+        <p style="padding-left: 10px;">Jan</p>
+        <div style="width: 110%; margin: 15px; height: 10px; background-color: rgb(117, 118, 133);">
+            <div id="tbar">
+            <span></span>
+            </div>
+        </div>
+        <p style="padding-right: 10px">Dec</p>
+        </div>
+
+        <div style="width: 80%; background: rgb(215, 27, 27); display: flex; justify-content: space-around; color: white;">
+        <p id="temp">+1C</p>
+        <div style="width: 150%; margin: 15px; height: 10px; background-color: rgb(255, 255, 255);">
+            <div id="tempbar">
+            <span></span>
+            </div>
+        </div>
+        </div>
+    </div> 
+    </div> 
 
   <div id = "fast">
     <button id="fast-button", onclick="fastForward()"><img id = "fast-img" src="assets/singleArrow.png"></img></button>
   </div>
 
+  <!--
   <div style="display: table; width: 20%;">
     <div style="display: table-row;">
         <div id="date-wrapper" style="display: table-cell;"><p id="date"></p></div>
         <div id="temp-wrapper" style="display: table-cell;"><p id="temp">+1C</p></div>
     </div>
-  </div>
+  </div>-->
 
+  <div id="policiestitle">
+    <h3>Policies </h3>
+  </div>
   <div id = "policy-sidebar">
-    <div id="policiestitle">
-        <h3>Policies </h3>
-    </div>
   </div>
 
   <script>updateResources()</script>
@@ -60,8 +92,30 @@
           <p id="help3">Are you ready to become the savior the world needs?</p>
         </div>
         <div style="display: flex; align-items: center; justify-content: center;">
-          <button type="button" id="play" class="bigbtn" onclick="closeHelp(); fixPolicies(); refreshPolicies()">START</button>
+          <button type="button" class="bigbtn" onclick="closeHelp(); openGuide()">NEXT</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="guide" class="modal">
+    <div class="modalwindow">
+      <h1>HOW TO PLAY:</h1>
+      <div style="font-size: 60%;">
+        <p>You have three resources you can use to help save the world: funds, public support, and research. With these resources, you can enact policies with the goal of decreasing the global carbon emission rate to net zero.</p>
+        <p>On the upper left, you will see a date which increments by one month every 2 seconds. Next to it is the global temperature difference above pre-industrial levels.</p>
+        <p>Keep in mind--if the global temperatures rises to +five degrees above pre-industrial levels, the world ends and you lose the game.</p>
+        <p>The funds you receive are generated over time, proportional to the percent of public support for your cause (as you collect taxes and revenue).</p>
+        <p>You also accumulate research "points" constantly over time.</p>          
+        <p>Click on policies to enact them. You must have the necessary resources for them to be be passed. Additionally, once you've enacted a level 1 policy, you might unlock new ones.</p>           
+        <p>The policy colors are as follows--blue policies represent research, yellow policies represent laws to be enacted, and red policies represent initatives. Each will push forth the changes as indicated in the box. </p>
+        <p>A fast forward button is also available on the upper right-hand.</p>
+        <div style="display: flex; align-items: center; justify-content: center; font-size: 120%;">
+          <p>Good luck, and have fun!</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <button type="button" id="play" class="bigbtn" onclick="closeGuide(); fixPolicies(); refreshPolicies()">START</button>
       </div>
     </div>
   </div>

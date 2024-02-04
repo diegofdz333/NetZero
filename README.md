@@ -4,6 +4,9 @@ Submission for ADI DevFest 2024.
 ## Date Completed
 02/03/2024
 
+## Version
+1.1
+
 ## Authors
 David Chang,
 Diego Fernandez,

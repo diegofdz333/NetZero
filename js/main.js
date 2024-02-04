@@ -13,7 +13,6 @@ let timeInterval;
 let game_speed;
 let fast = false;
 
-let paused = false; // is the clock paused?
 let displayOn = false;
 
 const STARTING_FUNDING = 100;
@@ -23,6 +22,8 @@ const STARTING_EMMISION_RATE = 4.7;
 const STARTING_RESEARCH = 0;
 const STARTING_RESEARCH_RATE = 1;
 
+const EMISSION_INCREASE_RATE = 0.03
+
 const FUNDING_RATE = 50;
 
 const STARTING_MONTH = 1;
@@ -31,6 +32,8 @@ const STARTING_YEAR = 2024;
 const ZERO_TEMP_CARBON = 320; // Carbon when temp diff = 0.
 const STARTING_TEMPERTURE = 1; // Temp difference from 20th century average at start of game.
 const TEMP_GAME_LOSS = 5; // Temp difference at which game loss happens.
+
+const MAX_OPACITY = 0.8; //opacity of red overlay
 
 const BASE_GAME_SPEED = 2; // seconds per month
 
@@ -42,10 +45,12 @@ function getTemperature() {
 }
 
 function newGame() {
+  console.log("New Game");
   resetPolicies();
   setStartingResources();
   refreshPolicies();
   closeHelp();
+  closeGuide();
   updateResources();
   displayOn = false;
   fast = false;
@@ -110,7 +115,7 @@ function checkWin() {
     }
     else if (emissionRate <= 0) {
       console.log("WIN");
-      clearInterval(timeInterval);
+      clearInterval(timeInterval);  
       displayWin();
       displayOn = true;
     }
@@ -133,7 +138,7 @@ function setStartingResources() {
 }
 
 function updateResources() {
-  let fundingStr = `Funding: $${Math.round(funding*100)/100}MM`;
+  let fundingStr = `Funding: $${Math.round(funding*100)/100}M`;
   let supportStr = `Support: ${Math.round(support*10)/10}%`;
   let carbonStr = `Carbon: ${Math.round(carbon*100)/100} ppm`;
   let emissionStr = `Emission Rate: ${Math.round(emissionRate*100)/100} ppm/year`;
@@ -152,6 +157,15 @@ function updateResources() {
   document.getElementById("temp").innerHTML = tempStr;
 }
 
+function updateColor() {
+  let colorDiv = document.getElementById('overlay');
+  let frac = (getTemperature() - STARTING_TEMPERTURE) / (TEMP_GAME_LOSS - STARTING_TEMPERTURE);
+  let opacity = frac * (MAX_OPACITY);
+  console.log(opacity);
+
+  colorDiv.style.opacity = opacity;
+}
+
 function increaseTime() {
   if (month < 12) {
     month++;
@@ -159,10 +173,23 @@ function increaseTime() {
     month = 1;
     year++;
   }
+  document.getElementById("tbar").style.width = (month/12 * 100) + "%";
   carbon += emissionRate / 12;
   research += researchRate;
   funding += FUNDING_RATE * support / 100 / 12;
+  emissionRate += EMISSION_INCREASE_RATE / 12;
   temp = getTemperature();
+  var elem = document.getElementById("tempbar");
+  var percent = temp/5 * 100;
+  elem.style.width = percent + "%";
+  if (percent <= 40) {
+    elem.style.backgroundColor = "green";
+  } else if (percent <= 70) {
+    elem.style.backgroundColor = "orange";
+  } else {
+    elem.style.backgroundColor = "rgb(125, 22, 22)";
+  }
+  updateColor();
   updateResources();
   checkWin();
 }
@@ -188,23 +215,6 @@ function fastForward() {
   }
 }
 
-/* IN CASE WE NEED TO PAUSE TIMER! e.g. opened help window...
-function pauseClock() {
-  if (!paused) {
-    paused = true;
-    clearInterval(timeinterval); // stop the clock
-    time_left = time_remaining(deadline).total; // preserve remaining time
-  }
-}
-
-function resumeClock() {
-  if (paused) {
-    paused = false;
-
-  }
-}
-*/
-
 var policies = JSON.parse(data);
 
 setStartingResources();
@@ -212,10 +222,16 @@ setStartingResources();
 /** help box navigation */
 function openHelp() {
   document.getElementById("helpwindow").style.display = "block";
-  //pause_clock();
 }
 function closeHelp() {
   document.getElementById("helpwindow").style.display = "none";
+}
+function openGuide() {
+  document.getElementById("guide").style.display = "block";
+  document.getElementById("helpwindow").style.display = "none";
+}
+function closeGuide() {
+  document.getElementById("guide").style.display = "none";
   clearInterval(timeInterval);
   timeInterval = setInterval(increaseTime, game_speed * 1000);
 }
